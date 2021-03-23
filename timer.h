@@ -10,12 +10,28 @@
 #define TIMER_H_
 
 
-
+#include "task.h"
 
 
 
 typedef void *		TimerHandle;
 typedef uint16_t	TimerTick;
+
+
+
+
+typedef void (*TimerHandlerHardware)();
+
+typedef void (*TimerEnableTick)();
+typedef void (*TimerDisableTick)();
+typedef void (*TimerHardwareInit)(TimerHandlerHardware hard_timer);
+
+typedef struct
+{
+	TimerEnableTick		tick_enable;
+	TimerDisableTick	tick_disable;
+	TimerHardwareInit	tick_init;
+}TimerHardwareInterface;
 
 typedef enum
 {
@@ -33,6 +49,9 @@ typedef enum
 }TimerStatus;
 
 
+void TimerInit(TimerHardwareInterface * init);
+
+
 TimerHandle TimerCreate(TimerType type, TimerTick interval);
 void TimerRegister(TimerHandle handle, TaskHandle task);
 void TimerRelease(TimerHandle handle, TaskHandle task);
@@ -46,5 +65,9 @@ void TimerTypeSet(TimerHandle handle, TimerType type);
 TimerStatus TimerStatusGet(TimerHandle timer);
 TimerTick TimerIntervalGet(TimerHandle handle);
 TimerType TimerTypeGet(TimerHandle handle);
+
+TimerStatus TimerStart(TimerHandle handle);
+TimerStatus TimerStop(TimerHandle handle);
+
 
 #endif /* TIMER_H_ */

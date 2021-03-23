@@ -9,6 +9,7 @@
 #ifndef MSG_H_
 #define MSG_H_
 
+#include <stdint.h>
 
 #define SHRINE_MESSAGE_NOPE						0x00
 #define SHRINE_MESSAGE_TIMER					0x01

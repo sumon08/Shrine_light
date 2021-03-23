@@ -5,6 +5,8 @@
  *  Author: Asus
  */ 
 
+
+#include <stdint.h>
 #include "shrine.h"
 #include <stddef.h>
 

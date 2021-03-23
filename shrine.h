@@ -9,8 +9,14 @@
 #ifndef SHRINE_H_
 #define SHRINE_H_
 
+#include <stddef.h>
 #include "config.h"
 
+
+
+#ifndef NULL
+#define NULL 0
+#endif
 
 
 typedef enum 
