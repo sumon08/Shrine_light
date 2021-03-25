@@ -19,13 +19,22 @@
 #define SHRINE_MESSAGE_TWI						0x05
 #define SHRINE_MESSAGE_UNKNOWN					0x06
 
-typedef struct
-{
-	uint8_t msg_id;
-	void * msg_data;
-}Message;
+
+typedef void * Message;
+
+typedef uint8_t MessageId;
 
 
+void InitMsgService();
 
+Message MessageCreate(MessageId id, void * message_data);
+void MessageDelete(Message msg);
+
+
+void MessageSetId(Message msg, MessageId id);
+MessageId MessageGetId(Message msg);
+
+void MessageSetData(Message msg, void * data);
+void * MessageData(Message msg);
 
 #endif /* MSG_H_ */
