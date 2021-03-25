@@ -12,6 +12,8 @@
 #include <stdint.h>
 
 typedef void * ListHandle;
+typedef void * ListIterator;
+
 
 typedef enum
 {
@@ -74,5 +76,13 @@ ListStatus ListRead(ListHandle lst, void * buffer, uint8_t buffer_size);
  * \return void
  */
 void ListFlush(ListHandle lst);
+
+
+
+//API for iteration over list without deleting.
+
+const ListIterator ListBegin(ListHandle lst);
+const ListIterator ListIterateNext(ListIterator lsti);
+void * ListData(ListIterator lsti);
 
 #endif /* LIST_H_ */

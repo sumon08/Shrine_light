@@ -6,6 +6,7 @@
  */ 
 
 
+#include "shrine.h"
 #include "list.h"
 #include <string.h>
 
@@ -32,11 +33,16 @@ typedef struct
 ListHandle ListCreate(uint8_t item_size)
 {
 	List * lst = ShrineMalloc(sizeof(List));
+	if (lst == NULL)
+	{
+		return NULL;
+	}
 	lst->item_size = item_size;
 	lst->item_available = 0;
 	lst->total_allocated_block = 0;
 	lst->pFront = NULL;
 	lst->pFree = NULL;
+	return lst;
 }
 
 
@@ -118,4 +124,24 @@ void ListFlush(ListHandle lst)
 		ls->total_allocated_block --;
 		node = ls->pFree;
 	}
+}
+
+
+
+
+const ListIterator ListBegin(ListHandle lst)
+{
+	List * ls = (List *) lst;
+	return ls->pFront;
+}
+
+const ListIterator ListIterateNext(ListIterator lsti)
+{
+	ListNode * node = (ListNode *) lsti;
+	return node->pNext;
+}
+void * ListData(ListIterator lsti)
+{
+	ListNode * node = (ListNode *) lsti;
+	return node->data;
 }
