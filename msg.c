@@ -8,12 +8,14 @@
 
 #include "shrine.h"
 #include "msg.h"
+#include "list.h"
 
 
 typedef struct
 {
 	uint8_t msg_id;
 	void * msg_data;
+	ListHandle subscriber;
 }Msg;
 
 
@@ -22,7 +24,10 @@ typedef struct
 
 Message MessageCreate(MessageId id, void * message_data)
 {
-	
+	Msg * msg = ShrineMalloc(sizeof(Msg));
+	msg->msg_id = id;
+	msg->msg_data = message_data;
+	return msg;
 }
 void MessageDelete(Message msg)
 {

@@ -10,6 +10,7 @@
 #define MSG_H_
 
 #include <stdint.h>
+#include "list.h"
 
 #define SHRINE_MESSAGE_NOPE						0x00
 #define SHRINE_MESSAGE_TIMER					0x01
@@ -20,9 +21,11 @@
 #define SHRINE_MESSAGE_UNKNOWN					0x06
 
 
+typedef uint8_t MessageId;
+
 typedef void * Message;
 
-typedef uint8_t MessageId;
+
 
 
 void InitMsgService();

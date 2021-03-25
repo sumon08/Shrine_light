@@ -38,6 +38,7 @@ typedef struct
 	Timer * pActive;
 	Timer * pExpire;
 	Timer * pStopped;
+	Timer * pDelete;
 	TimerHardwareInterface * hard;
 }TimerManager;
 
@@ -78,6 +79,10 @@ TimerHandle TimerCreate(TimerType type, TimerTick interval)
 	timer->interval_tick = interval;
 	timer->status = SHRINE_TIMER_STATUS_UNKNOWN;
 	timer->timer_id = timer_id++;
+	timer->aparent_tick = interval;
+	timer->perent_task = NULL;
+	timer->pNext = NULL;
+	return timer;
 }
 
 void TimerRegister(TimerHandle handle, TaskHandle task)
@@ -86,9 +91,11 @@ void TimerRegister(TimerHandle handle, TaskHandle task)
 	tim->perent_task = task;
 }
 
-void TimerRelease(TimerHandle handle, TaskHandle task)
+void TimerRelease(TimerHandle handle)
 {
-	
+	Timer * tim = (Timer *) handle;
+	tim->perent_task = NULL;
+	TimerStop(handle);
 }
 
 void TimerDelete(TimerHandle handle)
@@ -275,6 +282,12 @@ void DectivateTimer(Timer * timer)
 			}
 		}
 	}
+}
+
+TaskHandle TimerGetPerent(TimerHandle handle)
+{
+	Timer * timer = (Timer *) handle;
+	return timer->perent_task;
 }
 
 void ManageTimer()

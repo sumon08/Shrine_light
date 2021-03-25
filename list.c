@@ -23,6 +23,7 @@ typedef struct
 {
 	uint8_t item_size;
 	ListNode * pFront;
+	ListNode * pBack;
 	ListNode * pFree;
 	uint16_t item_available;
 	uint16_t total_allocated_block;
@@ -41,6 +42,7 @@ ListHandle ListCreate(uint8_t item_size)
 	lst->item_available = 0;
 	lst->total_allocated_block = 0;
 	lst->pFront = NULL;
+	lst->pBack = NULL;
 	lst->pFree = NULL;
 	return lst;
 }
@@ -88,8 +90,16 @@ ListStatus ListInsert(ListHandle lst, void * data)
 	}
 	
 	memcpy(node->data, data, ls->item_size);
-	node->pNext = ls->pFront;
-	ls->pFront = node;
+	node->pNext = NULL;
+	if (ls->item_available == 0)
+	{
+		ls->pFront = node;
+		ls->pBack = node;
+	}
+	else
+	{
+		ls->pBack->pNext = node;
+	}
 	ls->item_available++;
 	return LIST_OK;
 }
@@ -106,8 +116,15 @@ ListStatus ListRead(ListHandle lst, void * buffer, uint8_t buffer_size)
 		
 	ListNode * node = ls->pFront;
 	ls->pFront = node->pNext;
-	
+	ls->item_available --;
+	//check if list is empty.
+	// pFront should be NULL now. if not there is a problem in code. will add exception code later.
+	if (ls->item_available == 0)
+	{
+		ls->pBack = NULL;
+	}
 	memcpy(buffer, node->data, ls->item_size);
+	// put the node on free list for later use.
 	node->pNext = ls->pFree;
 	ls->pFree = node;
 	return LIST_OK;

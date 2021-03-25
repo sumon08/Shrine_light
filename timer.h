@@ -54,7 +54,7 @@ void TimerInit(TimerHardwareInterface * init);
 
 TimerHandle TimerCreate(TimerType type, TimerTick interval);
 void TimerRegister(TimerHandle handle, TaskHandle task);
-void TimerRelease(TimerHandle handle, TaskHandle task);
+void TimerRelease(TimerHandle handle);
 void TimerDelete(TimerHandle handle);
 
 
