@@ -24,20 +24,23 @@
 typedef uint8_t MessageId;
 
 typedef void * Message;
+typedef void * MessageHandle;
 
 
 
 
 void InitMsgService();
 
-Message MessageCreate(MessageId id, void * message_data);
+
+
+Message MessageCreate(MessageId id);
 void MessageDelete(Message msg);
 
 
 void MessageSetId(Message msg, MessageId id);
 MessageId MessageGetId(Message msg);
 
-void MessageSetData(Message msg, void * data);
-void * MessageData(Message msg);
+void MessagePublish(Message msg, void * data);
+
 
 #endif /* MSG_H_ */

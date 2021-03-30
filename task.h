@@ -14,14 +14,21 @@
 #include "msg.h"
 
 
-typedef ShrineSysCode (*TaskHandlerFunc)(Message msg, void * data);
-typedef void * TaskHandle;
+typedef ShrineSysCode (*TaskHandlerFunc)(MessageId msg, void * data);
 
+
+typedef void * TaskHandle;
+typedef uint8_t TaskPriority;
 
 void TaskInitSystem();
 
-TaskHandle TaskCreate(TaskHandlerFunc, uint8_t priority);
+TaskHandle TaskCreate(TaskHandlerFunc func, TaskPriority priority, const char * name);
 void TaskMessageSubscribe(TaskHandle task, Message msg);
+void TaskMessageUnsubscribe(TaskHandle task, Message msg);
+
+TaskHandle TaskHandleGet(const char * name);
+const char * TaskNameGet(TaskHandle task);
+
 
 void TaskSystemRun();
 

@@ -79,6 +79,8 @@ void ListFlush(ListHandle lst);
 
 
 
+void ListItemDelete(ListHandle lst, void * list_item);
+
 //API for iteration over list without deleting.
 
 const ListIterator ListBegin(ListHandle lst);

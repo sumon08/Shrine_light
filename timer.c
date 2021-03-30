@@ -152,10 +152,6 @@ TimerStatus TimerStop(TimerHandle handle)
 }
 
 
-void ExecuteTimerHandler(TimerHandle timer_handle)
-{
-	
-}
 
 void ActivateTimer(Timer * timer)
 {

@@ -146,6 +146,32 @@ void ListFlush(ListHandle lst)
 
 
 
+void ListItemDelete(ListHandle lst, void * list_item)
+{
+	List * ls = (List *) lst;
+	ListNode * node = (ListNode *) ls->pFront;
+	ListNode * prev_node = NULL;
+	while(node != NULL)
+	{
+		if(node->data == list_item)
+		{
+			if (prev_node == NULL)
+				ls->pFront = node->pNext;
+			else
+				prev_node->pNext = node->pNext;
+			
+			node->pNext = ls->pFree;
+			ls->pFree = node;
+			break; 
+		}
+		else
+		{
+			prev_node = node;
+			node = node->pNext;
+		}
+	}	
+}
+
 const ListIterator ListBegin(ListHandle lst)
 {
 	List * ls = (List *) lst;
